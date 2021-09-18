@@ -1,0 +1,98 @@
+server:
+  port: 8088
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  application:
+    name: notification-service
+  profiles:
+    active: uat
+  main:
+    allow-bean-definition-overriding: true
+  mail:
+    host: email-smtp.ap-south-1.amazonaws.com
+    port: 587
+    username: AKIA2UC7F4EMFMBGFNK4
+    password: BI1pwaxSQpAF/IXpREb14lFSE4c+ica/xOVA8zSMir2Q
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+      tls: true
+  thymeleaf:
+    template-loader-path: classpath:resources/templates
+    check-template: true
+    check-template-location: true
+    enabled: true
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    suffix: .html
+    cache: false
+    mode: HTML
+
+messaging:
+  queueName: notificationQ
+  exchangeName: notification.exchange
+
+---
+spring:
+  profiles: dev
+  data:
+    mongodb:
+      host: mongodb
+      uri: mongodb+srv://anmol:anmol@hour4u-uat-yubir.mongodb.net/test?retryWrites=true&w=majority
+      database: notification
+      auto-index-creation: true
+
+  rabbitmq:
+    addresses: amqp://hgxrvmbs:L0kt6avye2y0n1yoiTgHpuKXVYV_ZTs8@puffin.rmq2.cloudamqp.com/hgxrvmbs
+
+app:
+  firebase-configuration-file: google/hour4u-app-firebase-adminsdk-i5acx-abf5852fbd.json
+  url: https://uatconsole.hour4u.com
+
+---
+spring:
+  profiles: uat
+  data:
+    mongodb:
+      host: mongodb
+      uri: mongodb+srv://anmol:anmol@hour4u-uat-yubir.mongodb.net/hour4u-uat?retryWrites=true&w=majority
+      database: notification
+      auto-index-creation: true
+
+  rabbitmq:
+    addresses: amqp://hgxrvmbs:L0kt6avye2y0n1yoiTgHpuKXVYV_ZTs8@puffin.rmq2.cloudamqp.com/hgxrvmbs
+
+app:
+  firebase-configuration-file: google/hour4u-app-firebase-adminsdk-i5acx-c4197d8e3e.json
+  url: https://uatconsole.hour4u.com
+
+
+
+---
+spring:
+  profiles: prod
+  data:
+    mongodb:
+      host: mongodb
+      uri: mongodb+srv://prod-manager:neEWLCT1j2cVmsVu@hour4u-prod.yubir.mongodb.net/hour4u-prod?retryWrites=true&w=majority
+      database: notification
+      auto-index-creation: true
+
+  rabbitmq:
+    addresses: amqp://rsylcchc:lOg1SJKiLkKKvG9brDz3LdcEO9OKPCX3@lionfish.rmq.cloudamqp.com/rsylcchc
+
+app:
+  firebase-configuration-file: google/hour4u-app-firebase-adminsdk-i5acx-c4197d8e3e.json
+  url: https://admin.hour4u.com
+
